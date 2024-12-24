@@ -28,7 +28,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/SmushyTaco/clean-webpack-plugin.git"
+    "url": "git+https://github.com/SmushyTaco/clean-webpack-plugin.git"
   },
   "bugs": {
     "url": "https://github.com/SmushyTaco/clean-webpack-plugin/issues"
