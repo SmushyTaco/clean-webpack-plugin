@@ -38,6 +38,7 @@
     "build:es6": "tsc --project tsconfig.json",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build": "npm run clean && npm run build:es6 && npm run build:cjs",
+    "prepare": "npm run build",
     "dev": "npm run clean && cross-env NODE_ENV=development babel -w src -d dist --verbose --extensions .ts --ignore */**/*.d.ts,**/**/*.test.ts --source-maps"
   },
   "peerDependencies": {
