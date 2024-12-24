@@ -1,19 +1,17 @@
+// @ts-check
 'use strict';
-
-const nodeVersion = require('./dev-utils/node-version');
-
-const babel = {
+// noinspection JSUnusedGlobalSymbols
+export default {
     presets: [
         [
             '@babel/preset-env',
             {
                 targets: {
-                    node: nodeVersion,
+                    // eslint-disable-next-line no-undef
+                    node: process.version,
                 },
             },
         ],
         '@babel/preset-typescript',
     ],
 };
-
-module.exports = babel;

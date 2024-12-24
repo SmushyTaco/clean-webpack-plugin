@@ -1,4 +1,4 @@
-import { sync as delSync } from 'del';
+import { deleteSync } from 'del';
 import path from 'path';
 import { Compilation, Compiler, Stats } from 'webpack';
 
@@ -85,16 +85,9 @@ class CleanWebpackPlugin {
     private outputPath: string;
 
     constructor(options: Options = {}) {
-        if (isPlainObject(options) === false) {
+        if (!isPlainObject(options)) {
             throw new Error(`clean-webpack-plugin only accepts an options object. See:
             https://github.com/johnagan/clean-webpack-plugin#options-and-defaults-optional`);
-        }
-
-        // @ts-ignore
-        if (options.allowExternal) {
-            throw new Error(
-                'clean-webpack-plugin: `allowExternal` option no longer supported. Use `dangerouslyAllowCleanPatternsOutsideProject`',
-            );
         }
 
         if (
@@ -102,7 +95,6 @@ class CleanWebpackPlugin {
             options.dry !== true &&
             options.dry !== false
         ) {
-            // eslint-disable-next-line no-console
             console.warn(
                 'clean-webpack-plugin: dangerouslyAllowCleanPatternsOutsideProject requires dry: false to be explicitly set. Enabling dry mode',
             );
@@ -115,10 +107,9 @@ class CleanWebpackPlugin {
         this.dry =
             options.dry === true || options.dry === false
                 ? options.dry
-                : this.dangerouslyAllowCleanPatternsOutsideProject === true ||
-                  false;
+                : this.dangerouslyAllowCleanPatternsOutsideProject || false;
 
-        this.verbose = this.dry === true || options.verbose === true || false;
+        this.verbose = this.dry || options.verbose === true || false;
 
         this.cleanStaleWebpackAssets =
             options.cleanStaleWebpackAssets === true ||
@@ -163,8 +154,7 @@ class CleanWebpackPlugin {
     }
 
     apply(compiler: Compiler) {
-        if (!compiler.options.output || !compiler.options.output.path) {
-            // eslint-disable-next-line no-console
+        if (!compiler.options.output?.path) {
             console.warn(
                 'clean-webpack-plugin: options.output.path not defined. Plugin disabled...',
             );
@@ -226,7 +216,6 @@ class CleanWebpackPlugin {
          */
         if (stats.hasErrors()) {
             if (this.verbose) {
-                // eslint-disable-next-line no-console
                 console.warn(
                     'clean-webpack-plugin: pausing due to webpack errors',
                 );
@@ -236,7 +225,7 @@ class CleanWebpackPlugin {
         }
 
         /**
-         * Fetch Webpack's output asset files
+         * Fetch Webpack output asset files
          */
         const assetList = Object.keys(stats.compilation.assets);
 
@@ -246,22 +235,20 @@ class CleanWebpackPlugin {
          * (relies on del's cwd: outputPath option)
          */
         const staleFiles = this.currentAssets.filter((previousAsset) => {
-            const assetCurrent = assetList.includes(previousAsset) === false;
-
-            return assetCurrent;
+            return !assetList.includes(previousAsset);
         });
 
         /**
          * Save assets for next compilation
          */
-        this.currentAssets = assetList.sort();
+        this.currentAssets = assetList.toSorted((a, b) => a.localeCompare(b));
 
         const removePatterns = [];
 
         /**
          * Remove unused webpack assets
          */
-        if (this.cleanStaleWebpackAssets === true && staleFiles.length !== 0) {
+        if (this.cleanStaleWebpackAssets && staleFiles.length !== 0) {
             removePatterns.push(...staleFiles);
         }
 
@@ -279,9 +266,8 @@ class CleanWebpackPlugin {
 
     removeFiles(patterns: string[]) {
         try {
-            const deleted = delSync(patterns, {
+            const deleted = deleteSync(patterns, {
                 force: this.dangerouslyAllowCleanPatternsOutsideProject,
-                // Change context to build directory
                 cwd: this.outputPath,
                 dryRun: this.dry,
                 dot: true,
@@ -302,16 +288,17 @@ class CleanWebpackPlugin {
                      * https://github.com/webpack/webpack/issues/1904
                      * https://github.com/johnagan/clean-webpack-plugin/issues/11
                      */
-                    // eslint-disable-next-line no-console
                     console.warn(
                         `clean-webpack-plugin: ${message} ${filename}`,
                     );
                 });
             }
         } catch (error) {
-            const needsForce = /Cannot delete files\/folders outside the current working directory\./.test(
-                error.message,
-            );
+            const needsForce =
+                error instanceof Error &&
+                /Cannot delete files\/folders outside the current working directory\./.test(
+                    error.message,
+                );
 
             if (needsForce) {
                 const message =
@@ -319,8 +306,6 @@ class CleanWebpackPlugin {
 
                 throw new Error(message);
             }
-
-            /* istanbul ignore next */
             throw error;
         }
     }
