@@ -7,11 +7,10 @@ export default {
             '@babel/preset-env',
             {
                 targets: {
-                    // eslint-disable-next-line no-undef
-                    node: process.version,
-                },
-            },
+                    node: process.version
+                }
+            }
         ],
-        '@babel/preset-typescript',
-    ],
+        '@babel/preset-typescript'
+    ]
 };

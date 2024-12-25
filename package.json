@@ -37,7 +37,7 @@
     "url": "https://github.com/SmushyTaco/clean-webpack-plugin/issues"
   },
   "scripts": {
-    "clean": "del-cli --dot=true \"./dist/**/*\"",
+    "clean": "del-cli dist",
     "build:es6": "tsc --project tsconfig.json",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build": "npm run clean && npm run build:es6 && npm run build:cjs",
@@ -59,13 +59,16 @@
     "cross-env": "^7.0.3",
     "@eslint/js": "^9.17.0",
     "@smushytaco/versionchecker": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
     "typescript-eslint": "^8.18.2",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
     "webpack": "^5.97.1"
   },
   "dependencies": {
-    "del": "^8.0.0"
+    "del": "^8.0.0",
+    "is-plain-obj": "^4.1.0"
   },
   "overrides": {
     "glob": "^11.0.0",

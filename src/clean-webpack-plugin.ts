@@ -1,6 +1,7 @@
 import { deleteSync } from 'del';
 import path from 'path';
 import { Compilation, Compiler, Stats } from 'webpack';
+import isPlainObject from 'is-plain-obj';
 
 export interface Options {
     /**
@@ -62,16 +63,6 @@ export interface Options {
     dangerouslyAllowCleanPatternsOutsideProject?: boolean;
 }
 
-// Copied from https://github.com/sindresorhus/is-plain-obj/blob/97480673cf12145b32ec2ee924980d66572e8a86/index.js
-function isPlainObject(value: unknown): boolean {
-    if (Object.prototype.toString.call(value) !== '[object Object]') {
-        return false;
-    }
-
-    const prototype = Object.getPrototypeOf(value);
-    return prototype === null || prototype === Object.getPrototypeOf({});
-}
-
 class CleanWebpackPlugin {
     private readonly dry: boolean;
     private readonly verbose: boolean;
@@ -87,7 +78,7 @@ class CleanWebpackPlugin {
     constructor(options: Options = {}) {
         if (!isPlainObject(options)) {
             throw new Error(`clean-webpack-plugin only accepts an options object. See:
-            https://github.com/johnagan/clean-webpack-plugin#options-and-defaults-optional`);
+            https://github.com/SmushyTaco/clean-webpack-plugin#options-and-defaults-optional`);
         }
 
         if (
@@ -96,7 +87,7 @@ class CleanWebpackPlugin {
             options.dry !== false
         ) {
             console.warn(
-                'clean-webpack-plugin: dangerouslyAllowCleanPatternsOutsideProject requires dry: false to be explicitly set. Enabling dry mode',
+                'clean-webpack-plugin: dangerouslyAllowCleanPatternsOutsideProject requires dry: false to be explicitly set. Enabling dry mode'
             );
         }
 
@@ -124,13 +115,13 @@ class CleanWebpackPlugin {
                 : true;
 
         this.cleanAfterEveryBuildPatterns = Array.isArray(
-            options.cleanAfterEveryBuildPatterns,
+            options.cleanAfterEveryBuildPatterns
         )
             ? options.cleanAfterEveryBuildPatterns
             : [];
 
         this.cleanOnceBeforeBuildPatterns = Array.isArray(
-            options.cleanOnceBeforeBuildPatterns,
+            options.cleanOnceBeforeBuildPatterns
         )
             ? options.cleanOnceBeforeBuildPatterns
             : ['**/*'];
@@ -156,7 +147,7 @@ class CleanWebpackPlugin {
     apply(compiler: Compiler) {
         if (!compiler.options.output?.path) {
             console.warn(
-                'clean-webpack-plugin: options.output.path not defined. Plugin disabled...',
+                'clean-webpack-plugin: options.output.path not defined. Plugin disabled...'
             );
 
             return;
@@ -217,7 +208,7 @@ class CleanWebpackPlugin {
         if (stats.hasErrors()) {
             if (this.verbose) {
                 console.warn(
-                    'clean-webpack-plugin: pausing due to webpack errors',
+                    'clean-webpack-plugin: pausing due to webpack errors'
                 );
             }
 
@@ -271,7 +262,7 @@ class CleanWebpackPlugin {
                 cwd: this.outputPath,
                 dryRun: this.dry,
                 dot: true,
-                ignore: this.protectWebpackAssets ? this.currentAssets : [],
+                ignore: this.protectWebpackAssets ? this.currentAssets : []
             });
 
             /**
@@ -289,7 +280,7 @@ class CleanWebpackPlugin {
                      * https://github.com/johnagan/clean-webpack-plugin/issues/11
                      */
                     console.warn(
-                        `clean-webpack-plugin: ${message} ${filename}`,
+                        `clean-webpack-plugin: ${message} ${filename}`
                     );
                 });
             }
@@ -297,7 +288,7 @@ class CleanWebpackPlugin {
             const needsForce =
                 error instanceof Error &&
                 /Cannot delete files\/folders outside the current working directory\./.test(
-                    error.message,
+                    error.message
                 );
 
             if (needsForce) {
