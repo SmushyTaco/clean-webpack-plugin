@@ -1,16 +1,17 @@
 {
   "name": "@smushytaco/clean-webpack-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A webpack plugin to remove/clean your build folder(s).",
+  "type": "module",
   "author": {
     "name": "SmushyTaco",
     "email": "personal@nikanradan.com"
   },
   "private": false,
   "license": "MIT",
-  "main": "dist/cjs/clean-webpack-plugin.js",
-  "module": "dist/es6/clean-webpack-plugin.js",
-  "types": "dist/es6/clean-webpack-plugin.d.ts",
+  "main": "dist/clean-webpack-plugin.js",
+  "module": "dist/clean-webpack-plugin.js",
+  "types": "dist/clean-webpack-plugin.d.ts",
   "files": [
     "dist",
     "LICENSE",
@@ -38,9 +39,7 @@
   },
   "scripts": {
     "clean": "del-cli dist",
-    "build:es6": "tsc --project tsconfig.json",
-    "build:cjs": "tsc --project tsconfig.cjs.json",
-    "build": "npm run clean && npm run build:es6 && npm run build:cjs",
+    "build": "npm run clean && tsc",
     "prepare": "npm run build",
     "dev": "npm run clean && cross-env NODE_ENV=development babel -w src -d dist --verbose --extensions .ts --ignore */**/*.d.ts,**/**/*.test.ts --source-maps"
   },
@@ -74,9 +73,5 @@
   "overrides": {
     "glob": "^11.0.0",
     "del": "^8.0.0"
-  },
-  "exports": {
-    "import": "./dist/es6/clean-webpack-plugin.js",
-    "require": "./dist/cjs/clean-webpack-plugin.js"
   }
 }
