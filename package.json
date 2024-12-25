@@ -1,6 +1,6 @@
 {
   "name": "@smushytaco/clean-webpack-plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A webpack plugin to remove/clean your build folder(s).",
   "type": "module",
   "author": {
