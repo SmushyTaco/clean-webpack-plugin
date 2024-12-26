@@ -7,7 +7,12 @@ async function buildLibrary() {
             platform: 'node',
             entryPoints: ['./src/index.ts'],
             bundle: true,
+            external: ['del', 'path', 'webpack'],
             format: 'esm',
+            define: {
+                'process.env.NODE_ENV': '"production"'
+            },
+            minify: true,
             outfile: './dist/index.mjs'
         });
 
@@ -16,7 +21,12 @@ async function buildLibrary() {
             platform: 'node',
             entryPoints: ['./src/index.ts'],
             bundle: true,
+            external: ['del', 'path', 'webpack'],
             format: 'cjs',
+            define: {
+                'process.env.NODE_ENV': '"production"'
+            },
+            minify: true,
             outfile: './dist/index.cjs'
         });
 

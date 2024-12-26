@@ -1,6 +1,6 @@
 {
   "name": "@smushytaco/clean-webpack-plugin",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A webpack plugin to remove/clean your build folder(s).",
   "type": "module",
   "author": {
@@ -63,7 +63,7 @@
     "del-cli": "^6.0.0",
     "cross-env": "^7.0.3",
     "@eslint/js": "^9.17.0",
-    "@smushytaco/versionchecker": "^1.0.1",
+    "@smushytaco/versionchecker": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
     "typescript-eslint": "^8.18.2",
