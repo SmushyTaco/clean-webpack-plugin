@@ -1,6 +1,6 @@
 {
   "name": "@smushytaco/clean-webpack-plugin",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A webpack plugin to remove/clean your build folder(s).",
   "type": "module",
   "author": {
@@ -11,11 +11,17 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.cts",
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "files": [
@@ -44,9 +50,8 @@
     "url": "https://github.com/SmushyTaco/clean-webpack-plugin/issues"
   },
   "scripts": {
-    "clean": "del-cli dist",
-    "build:types": "npx tsc --emitDeclarationOnly",
-    "build": "npm run clean && npx tsx esbuild.ts && npm run build:types",
+    "clean": "npx del-cli dist",
+    "build": "npm run clean && npx vite build",
     "prepare": "npm run build"
   },
   "peerDependencies": {
@@ -61,17 +66,17 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-typescript": "^7.26.0",
     "del-cli": "^6.0.0",
-    "cross-env": "^7.0.3",
     "@eslint/js": "^9.17.0",
     "@smushytaco/versionchecker": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
     "typescript-eslint": "^8.18.2",
+    "vite": "^6.0.6",
+    "vite-plugin-tsc-transpile": "^1.0.2",
+    "vite-plugin-dts": "^4.4.0",
     "globals": "^15.14.0",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
-    "tsx": "^4.19.2",
-    "esbuild": "^0.24.2",
     "webpack": "^5.97.1"
   },
   "dependencies": {
