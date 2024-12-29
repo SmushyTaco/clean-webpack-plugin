@@ -15,28 +15,28 @@ export default [
             parser: tsParser,
             parserOptions: {
                 sourceType: 'module',
-                project: './tsconfig.json',
-            },
+                project: './tsconfig.json'
+            }
         },
         plugins: {
-            '@typescript-eslint': tsEslintPlugin,
+            '@typescript-eslint': tsEslintPlugin
         },
         rules: {
             ...eslint.configs.recommended.rules,
-            ...tsEslintPlugin.configs.recommended.rules,
-        },
+            ...tsEslintPlugin.configs.recommended.rules
+        }
     },
     {
         files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
         languageOptions: {
             globals: globals.node,
             parserOptions: {
-                sourceType: 'module',
-            },
+                sourceType: 'module'
+            }
         },
         rules: {
-            ...eslint.configs.recommended.rules,
-        },
+            ...eslint.configs.recommended.rules
+        }
     },
     {
         files: ['vite.config.ts'],
@@ -45,15 +45,15 @@ export default [
             parser: tsParser,
             parserOptions: {
                 sourceType: 'module',
-                project: './tsconfig.vite.json',
-            },
+                project: './tsconfig.vite.json'
+            }
         },
         plugins: {
-            '@typescript-eslint': tsEslintPlugin,
+            '@typescript-eslint': tsEslintPlugin
         },
         rules: {
             ...eslint.configs.recommended.rules,
-            ...tsEslintPlugin.configs.recommended.rules,
-        },
-    },
+            ...tsEslintPlugin.configs.recommended.rules
+        }
+    }
 ];
