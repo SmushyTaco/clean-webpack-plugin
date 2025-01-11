@@ -2,7 +2,7 @@
 
 A webpack plugin to remove/clean your build folder(s).
 
-> NOTE: Node v10+ and webpack v4+ are supported and tested.
+> NOTE: Node v10+ and webpack v5+ are supported and tested.
 
 ## About
 
@@ -21,7 +21,7 @@ const webpackConfig = {
     plugins: [
         /**
          * All files inside webpack's output.path directory will be removed once, but the
-         * directory itself will not be. If using webpack 4+'s default configuration,
+         * directory itself will not be. If using webpack 5+'s default configuration,
          * everything under <PROJECT_DIR>/dist/ will be removed.
          * Use cleanOnceBeforeBuildPatterns to override this behavior.
          *

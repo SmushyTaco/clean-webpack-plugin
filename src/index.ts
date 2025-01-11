@@ -1,6 +1,6 @@
 import { deleteSync } from 'del';
-import path from 'path';
-import { Compilation, Compiler, Stats } from 'webpack';
+import path from 'node:path';
+import webpack from 'webpack';
 import isPlainObject from 'is-plain-obj';
 
 export interface Options {
@@ -144,7 +144,7 @@ class CleanWebpackPlugin {
         this.removeFiles = this.removeFiles.bind(this);
     }
 
-    apply(compiler: Compiler) {
+    apply(compiler: webpack.Compiler) {
         if (!compiler.options.output?.path) {
             console.warn(
                 'clean-webpack-plugin: options.output.path not defined. Plugin disabled...'
@@ -163,7 +163,7 @@ class CleanWebpackPlugin {
          */
         const hooks = compiler.hooks;
 
-        if (this.cleanOnceBeforeBuildPatterns.length !== 0) {
+        if (this.cleanOnceBeforeBuildPatterns.length > 0) {
             hooks.emit.tap('clean-webpack-plugin', (compilation) => {
                 this.handleInitial(compilation);
             });
@@ -181,7 +181,7 @@ class CleanWebpackPlugin {
      *
      * Warning: It is recommended to initially clean your build directory outside of webpack to minimize unexpected behavior.
      */
-    handleInitial(compilation: Compilation) {
+    handleInitial(compilation: webpack.Compilation) {
         if (this.initialClean) {
             return;
         }
@@ -201,7 +201,7 @@ class CleanWebpackPlugin {
         this.removeFiles(this.cleanOnceBeforeBuildPatterns);
     }
 
-    handleDone(stats: Stats) {
+    handleDone(stats: webpack.Stats) {
         /**
          * Do nothing if there is a webpack error
          */
@@ -239,18 +239,18 @@ class CleanWebpackPlugin {
         /**
          * Remove unused webpack assets
          */
-        if (this.cleanStaleWebpackAssets && staleFiles.length !== 0) {
+        if (this.cleanStaleWebpackAssets && staleFiles.length > 0) {
             removePatterns.push(...staleFiles);
         }
 
         /**
          * Remove cleanAfterEveryBuildPatterns
          */
-        if (this.cleanAfterEveryBuildPatterns.length !== 0) {
+        if (this.cleanAfterEveryBuildPatterns.length > 0) {
             removePatterns.push(...this.cleanAfterEveryBuildPatterns);
         }
 
-        if (removePatterns.length !== 0) {
+        if (removePatterns.length > 0) {
             this.removeFiles(removePatterns);
         }
     }
@@ -269,7 +269,7 @@ class CleanWebpackPlugin {
              * Log if verbose is enabled
              */
             if (this.verbose) {
-                deleted.forEach((file) => {
+                for (const file of deleted) {
                     const filename = path.relative(process.cwd(), file);
 
                     const message = this.dry ? 'dry' : 'removed';
@@ -282,7 +282,7 @@ class CleanWebpackPlugin {
                     console.warn(
                         `clean-webpack-plugin: ${message} ${filename}`
                     );
-                });
+                }
             }
         } catch (error) {
             const needsForce =
