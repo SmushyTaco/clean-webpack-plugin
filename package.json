@@ -1,17 +1,27 @@
 {
   "name": "@smushytaco/clean-webpack-plugin",
   "version": "1.0.10",
+  "private": false,
   "description": "A webpack plugin to remove/clean your build folder(s).",
-  "type": "module",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "clean",
+    "node"
+  ],
+  "bugs": {
+    "url": "https://github.com/SmushyTaco/clean-webpack-plugin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmushyTaco/clean-webpack-plugin.git"
+  },
+  "license": "MIT",
   "author": {
     "name": "SmushyTaco",
     "email": "personal@nikanradan.com"
   },
-  "private": false,
-  "license": "MIT",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.cts",
+  "type": "module",
   "exports": {
     ".": {
       "import": {
@@ -24,60 +34,51 @@
       }
     }
   },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
   "files": [
     "dist",
     "LICENSE",
     "README.md"
   ],
+  "scripts": {
+    "build": "npm run clean && npx vite build",
+    "clean": "npx del-cli dist",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "del": "^8.0.0",
+    "is-plain-obj": "^4.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@smushytaco/versionchecker": "^1.0.5",
+    "@types/node": "^22.10.10",
+    "@typescript-eslint/eslint-plugin": "^8.21.0",
+    "@typescript-eslint/parser": "^8.21.0",
+    "del-cli": "^6.0.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-unicorn": "^56.0.1",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "sort-package-json": "^2.14.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.21.0",
+    "vite": "^6.0.11",
+    "vite-plugin-dts": "^4.5.0",
+    "vite-plugin-tsc-transpile": "^1.0.4",
+    "webpack": "^5.97.1"
+  },
+  "peerDependencies": {
+    "webpack": ">=4.0.0 <6.0.0"
+  },
   "engines": {
     "node": ">=18.12.0",
     "npm": ">=8.19.2"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "keywords": [
-    "webpack",
-    "plugin",
-    "clean",
-    "node"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/SmushyTaco/clean-webpack-plugin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/SmushyTaco/clean-webpack-plugin/issues"
-  },
-  "scripts": {
-    "clean": "npx del-cli dist",
-    "build": "npm run clean && npx vite build",
-    "prepare": "npm run build"
-  },
-  "peerDependencies": {
-    "webpack": ">=4.0.0 <6.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^22.10.10",
-    "del-cli": "^6.0.0",
-    "@eslint/js": "^9.19.0",
-    "@smushytaco/versionchecker": "^1.0.5",
-    "@typescript-eslint/eslint-plugin": "^8.21.0",
-    "@typescript-eslint/parser": "^8.21.0",
-    "typescript-eslint": "^8.21.0",
-    "eslint-plugin-unicorn": "^56.0.1",
-    "eslint-plugin-prettier": "^5.2.3",
-    "vite": "^6.0.11",
-    "vite-plugin-tsc-transpile": "^1.0.4",
-    "vite-plugin-dts": "^4.5.0",
-    "globals": "^15.14.0",
-    "prettier": "^3.4.2",
-    "typescript": "^5.7.3",
-    "webpack": "^5.97.1"
-  },
-  "dependencies": {
-    "del": "^8.0.0",
-    "is-plain-obj": "^4.1.0"
   },
   "overrides": {
     "glob": "^11.0.1"
